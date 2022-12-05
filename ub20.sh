@@ -424,8 +424,6 @@ function dependency_install() {
     
     apt clean all >/dev/null 2>&1
     apt autoremove -y >/dev/null 2>&1
-    sudo apt update -y >/dev/null 2>&1
-    sudo apt dist-upgrade -y >/dev/null 2>&1
     sudo apt-get remove --purge ufw firewalld -y >/dev/null 2>&1
     sudo apt-get remove --purge exim4 -y >/dev/null 2>&1
     judge "Clean configuration"

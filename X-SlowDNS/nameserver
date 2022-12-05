@@ -57,9 +57,19 @@ mv server.key /etc/slowdns/
 mv server.pub /etc/slowdns/
 wget -O /etc/systemd/system/client.service "${GIT_HUB}X-SlowDNS/client" >/dev/null 2>&1
 wget -O /etc/systemd/system/server.service "${GIT_HUB}X-SlowDNS/server" >/dev/null 2>&1
+wget -O /etc/systemd/system/bhoikfostyahya.service "${GIT_HUB}X-SlowDNS/bhoikfostyahya" >/dev/null 2>&1
 sed -i "s/xxxx/$NS_DOMAIN/g" /etc/systemd/system/client.service >/dev/null 2>&1
 sed -i "s/xxxx/$NS_DOMAIN/g" /etc/systemd/system/server.service >/dev/null 2>&1
+sed -i "s/xxxx/$NS_DOMAIN/g" /etc/systemd/system/bhoikfostyahya.service >/dev/null 2>&1
 chmod +x /etc/slowdns/server.key
 chmod +x /etc/slowdns/server.pub
 chmod +x /etc/slowdns/server
 chmod +x /etc/slowdns/client
+sudo iptables -I INPUT -p udp --dport 5300 -j ACCEPT
+sudo iptables -I INPUT -p udp --dport 5400 -j ACCEPT
+sudo iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5300
+sudo iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5400
+systemctl daemon-reload
+systemctl enable bhoikfostyahya
+systemctl restart bhoikfostyahya
+systemctl status bhoikfostyahya

@@ -435,7 +435,7 @@ function dependency_install() {
     ${INS} make curl socat systemd libpcre3 libpcre3-dev zlib1g-dev openssl libssl-dev >/dev/null 2>&1
     judge "Installed curl socat systemd"
     apt-get install golang -y
-    ${INS} net-tools cron htop lsof tar >/dev/null 2>&1
+    ${INS} net-tools cron htop lsof tar -y >/dev/null 2>&1
     judge "Installed net-tools"
 
     judge "Installed openvpn easy-rsa"

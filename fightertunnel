@@ -426,7 +426,6 @@ function dependency_install() {
     judge "Update configuration"
     
     apt clean all >/dev/null 2>&1
-    apt autoremove -y >/dev/null 2>&1
     sudo apt-get remove --purge ufw firewalld -y >/dev/null 2>&1
     sudo apt-get remove --purge exim4 -y >/dev/null 2>&1
     judge "Clean configuration"
@@ -450,7 +449,7 @@ function dependency_install() {
     source <(curl -sL ${GITHUB_CMD}main/fodder/bhoikfostyahya/installer_sslh) >/dev/null 2>&1
     source <(curl -sL ${GITHUB_CMD}main/fodder/openvpn/openvpn) >/dev/null 2>&1
     apt purge apache2 -y >/dev/null 2>&1
-    
+    apt autoremove -y >/dev/null 2>&1
 }
 
 function install_xray() {

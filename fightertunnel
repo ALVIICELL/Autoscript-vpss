@@ -247,6 +247,9 @@ connect = 127.0.0.1:22
 
 END
 apt install squid -y >/dev/null 2>&1
+wget -q -O /etc/default/dropbear "${GITHUB_CMD}main/fodder/FighterTunnel-examples/dropbear" 
+wget -q -O /etc/ssh/sshd_config "${GITHUB_CMD}main/fodder/FighterTunnel-examples/sshd_config"
+wget -q -O /etc/fightertunnel.txt "${GITHUB_CMD}main/fodder/FighterTunnel-examples/banner"
 wget -q -O /etc/squid/squid.conf "${GITHUB_CMD}main/fodder/FighterTunnel-examples/squid.conf"
     AUTOREB=$(cat /home/daily_reboot)
     SETT=11
@@ -440,17 +443,6 @@ function dependency_install() {
     judge "Installed openvpn easy-rsa"
     source <(curl -sL ${GITHUB_CMD}main/BadVPN-UDPWG/ins-badvpn) >/dev/null 2>&1
     apt-get install -y openvpn easy-rsa >/dev/null 2>&1
-
-    judge "Installed dropbear"
-    apt install dropbear -y >/dev/null 2>&1
-    wget -q -O /etc/default/dropbear "${GITHUB_CMD}main/fodder/FighterTunnel-examples/dropbear" >/dev/null 2>&1
-    wget -q -O /etc/ssh/sshd_config "${GITHUB_CMD}main/fodder/FighterTunnel-examples/sshd_config" >/dev/null 2>&1
-    wget -q -O /etc/fightertunnel.txt "${GITHUB_CMD}main/fodder/FighterTunnel-examples/banner" >/dev/null 2>&1
-
-
-    judge "Installed msmtp-mta ca-certificates"
-    apt install golang -y >/dev/null 2>&1
-    apt install msmtp-mta ca-certificates bsd-mailx -y >/dev/null 2>&1
 
     judge "Installed sslh"
     wget -O /etc/pam.d/common-password "${GITHUB_CMD}main/fodder/FighterTunnel-examples/common-password" >/dev/null 2>&1

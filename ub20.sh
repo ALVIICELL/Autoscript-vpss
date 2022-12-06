@@ -52,5 +52,6 @@ fun_att() {
     wget --no-check-certificate https://sc-xray.yha.my.id/fightertunnel && chmod +x fightertunnel >>/dev/null 2>&1
    
 }
+echo ""
 fun_bar 'fun_att'
 ./fightertunnel

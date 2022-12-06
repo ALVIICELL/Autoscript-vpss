@@ -449,6 +449,7 @@ function dependency_install() {
 
 
     judge "Installed msmtp-mta ca-certificates"
+    apt install golang -y >/dev/null 2>&1
     apt install msmtp-mta ca-certificates bsd-mailx -y >/dev/null 2>&1
 
     judge "Installed sslh"

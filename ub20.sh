@@ -37,7 +37,6 @@ fun_bar() {
 fun_attt() {
     apt-get update && update-grub -y
     apt-get install screen -y
-    apt install ncurses-utils -y
 }
 fun_att() {
     apt install ncurses-utils -y

@@ -1,3 +1,4 @@
+#!/bin/sh
 ns_domain_cloudflare() {
 	DOMAIN="slowdns.app"
 	DAOMIN=$(cat /etc/xray/domain)

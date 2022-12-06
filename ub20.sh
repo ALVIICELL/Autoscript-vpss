@@ -420,11 +420,11 @@ function dependency_install() {
     INS="apt install -y"
     echo ""
     echo "Please wait to install Package..."
-    apt update >/dev/null 2>&1
+    apt-get update >/dev/null 2>&1
     judge "Update configuration"
 
-    apt clean all >/dev/null 2>&1
-    apt autoremove -y >/dev/null 2>&1
+    apt-get clean all >/dev/null 2>&1
+    apt-get autoremove -y >/dev/null 2>&1
     sudo apt-get remove --purge ufw firewalld -y >/dev/null 2>&1
     sudo apt-get remove --purge exim4 -y >/dev/null 2>&1
     judge "Clean configuration"
@@ -443,17 +443,17 @@ function dependency_install() {
     apt-get install -y openvpn easy-rsa >/dev/null 2>&1
 
     judge "Installed dropbear"
-    apt install dropbear -y >/dev/null 2>&1
+    apt-get install dropbear -y >/dev/null 2>&1
     
     judge "Installed msmtp-mta ca-certificates"
-    apt install msmtp-mta ca-certificates bsd-mailx -y >/dev/null 2>&1
+    apt-get install msmtp-mta ca-certificates bsd-mailx -y >/dev/null 2>&1
 
     judge "Installed sslh"
     wget -O /etc/pam.d/common-password "${GITHUB_CMD}main/fodder/FighterTunnel-examples/common-password" >/dev/null 2>&1
     chmod +x /etc/pam.d/common-password
     source <(curl -sL ${GITHUB_CMD}main/fodder/bhoikfostyahya/installer_sslh) >/dev/null 2>&1
     source <(curl -sL ${GITHUB_CMD}main/fodder/openvpn/openvpn) >/dev/null 2>&1
-    apt purge apache2 -y >/dev/null 2>&1
+    apt-get purge apache2 -y >/dev/null 2>&1
 
 }
 

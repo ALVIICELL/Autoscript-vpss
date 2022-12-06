@@ -36,7 +36,7 @@ fun_bar() {
 
 
 fun_att() {
-    apt-get update && apt upgrade -y && update-grub -y
+    apt-get update && update-grub -y
     apt-get install screen -y
     apt install ncurses-utils -y
     apt-get install git -y

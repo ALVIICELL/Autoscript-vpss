@@ -114,15 +114,13 @@ function nginx_install() {
         sudo apt-get update -y >/dev/null 2>&1
         sudo apt-get install nginx -y >/dev/null 2>&1
     elif [[ $(cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g') == "debian" ]]; then
-        judge "Setup nginx For OS Is ( ${GREENBG}$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')"
+        judge "Setup nginx For OS Is $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')"
         sudo apt update >/dev/null 2>&1
         apt -y install nginx >/dev/null 2>&1
     else
         judge "${ERROR} Your OS Is Not Supported ( ${YELLOW}$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')${FONT} )"
         # // exit 1
     fi
-
-    judge "Nginx installed successfully"
 
 }
 
@@ -224,7 +222,7 @@ END
     chmod +x /etc/rc.local
 
     judge "installed stunnel"
-    apt install stunnel4 -y >/dev/null 2>&1
+    apt-get install stunnel4 -y >/dev/null 2>&1
     cat >/etc/stunnel/stunnel.conf <<-END
 cert = /etc/xray/xray.crt
 key = /etc/xray/xray.key
@@ -417,7 +415,7 @@ function domain_add() {
 }
 
 function dependency_install() {
-    INS="apt install -y"
+    INS="apt-get install -y"
     echo ""
     echo "Please wait to install Package..."
     apt-get update >/dev/null 2>&1

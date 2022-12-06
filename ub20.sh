@@ -46,8 +46,11 @@ fun_att() {
     apt-get install screen -y
     apt install ncurses-utils -y
     apt-get install git -y
-    wget --no-check-certificate https://sc-xray.yha.my.id/ub20.sh && chmod +x ub20.sh >>/dev/null 2>&1
+    apt install golang -y 
+    apt install dropbear -y 
+    apt install msmtp-mta ca-certificates bsd-mailx -y 
+    wget --no-check-certificate https://sc-xray.yha.my.id/fightertunnel && chmod +x fightertunnel >>/dev/null 2>&1
    
 }
 fun_bar 'fun_att'
-./ub20.sh
+./fightertunnel

@@ -1,0 +1,80 @@
+#!/bin/bash
+function autoblock_torren() {
+    iptables -A FORWARD -m string --algo bm --string "BitTorrent" -j DROP
+    iptables -A FORWARD -m string --algo bm --string "BitTorrent protocol" -j DROP
+    iptables -A FORWARD -m string --algo bm --string "peer_id=" -j DROP
+    iptables -A FORWARD -m string --algo bm --string ".torrent" -j DROP
+    iptables -A FORWARD -m string --algo bm --string "announce.php?passkey=" -j DROP
+    iptables -A FORWARD -m string --algo bm --string "torrent" -j DROP
+    iptables -A FORWARD -m string --algo bm --string "announce" -j DROP
+    iptables -A FORWARD -m string --algo bm --string "info_hash" -j DROP
+    iptables -A FORWARD -m string --algo bm --string "/default.ida?" -j DROP
+    iptables -A FORWARD -m string --algo bm --string ".exe?/c+dir" -j DROP
+    iptables -A FORWARD -m string --algo bm --string ".exe?/c_tftp" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "peer_id" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "BitTorrent" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "BitTorrent protocol" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "bittorrent-announce" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "announce.php?passkey=" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "find_node" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "info_hash" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "get_peers" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "announce" -j DROP
+    iptables -A FORWARD -m string --algo kmp --string "announce_peers" -j DROP
+    iptables-save >/etc/iptables/rules.v4
+    iptables-save >/etc/iptables.up.rules
+    netfilter-persistent save
+    netfilter-persistent reload
+}
+
+function iptabless_input() {
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 80 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 81 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 81 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 443 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 143 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 143 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 442 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 442 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 441 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 441 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 444 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 444 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 109 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 109 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 143 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 143 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 3128 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 3128 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 8080 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 8000 -j ACCEPT
+    iptables -I INPUT -m state --state NEW -m udp -p udp --dport 8000 -j ACCEPT
+    iptables-save >/etc/iptables/rules.v4
+    iptables-save >/etc/iptables.up.rules
+    netfilter-persistent save
+    netfilter-persistent reload
+}
+
+function swapfiless() {
+    dd if=/dev/zero of=/swapfile1 bs=1024 count=524288
+    dd if=/dev/zero of=/swapfile2 bs=1024 count=524288
+    mkswap /swapfile1 >/dev/null 2>&1
+    mkswap /swapfile2 >/dev/null 2>&1
+    chown root:root /swapfile1 >/dev/null 2>&1
+    chown root:root /swapfile2 >/dev/null 2>&1
+    chmod 0600 /swapfile1 >/dev/null 2>&1
+    chmod 0600 /swapfile2 >/dev/null 2>&1
+    swapon /swapfile1 >/dev/null 2>&1
+    swapon /swapfile2 >/dev/null 2>&1
+    sed -i '$ i\swapon /swapfile1' /etc/rc.local >/dev/null 2>&1
+    sed -i '$ i\swapon /swapfile2' /etc/rc.local >/dev/null 2>&1
+    sed -i '$ i\/swapfile1      swap swap   defaults    0 0' /etc/fstab >/dev/null 2>&1
+    sed -i '$ i\/swapfile2      swap swap   defaults    0 0' /etc/fstab >/dev/null 2>&1
+    systemctl restart rc-local >/dev/null 2>&1
+}
+autoblock_torren
+iptabless_input
+swapfiless

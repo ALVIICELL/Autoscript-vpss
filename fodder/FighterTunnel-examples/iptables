@@ -23,6 +23,8 @@ function autoblock_torren() {
     iptables -A FORWARD -m string --algo kmp --string "announce_peers" -j DROP
     iptables -I INPUT -p udp --dport 5300 -j ACCEPT
     iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5300
+    iptables-save > /etc/iptables/rules.v4
+    iptables-save > /etc/iptables.up.rules
     netfilter-persistent save  >/dev/null 2>&1
     netfilter-persistent reload  >/dev/null 2>&1
 }
@@ -91,6 +93,8 @@ function iptabless_input() {
     iptables -I INPUT -m state --state NEW -m udp -p udp --dport 37516 -j ACCEPT
     iptables -I INPUT -m state --state NEW -m udp -p udp --dport 54442 -j ACCEPT
     iptables -I INPUT -m state --state NEW -m udp -p udp --dport 5300 -j ACCEPT
+    iptables-save > /etc/iptables/rules.v4
+    iptables-save > /etc/iptables.up.rules
     netfilter-persistent save  >/dev/null 2>&1
     netfilter-persistent reload  >/dev/null 2>&1
 }

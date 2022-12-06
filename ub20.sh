@@ -34,18 +34,26 @@ fun_bar() {
     tput cnorm
 }
 
-
-fun_att() {
+fun_attt() {
     apt-get update && update-grub -y
     apt-get install screen -y
+    apt install ncurses-utils -y
+}
+fun_att() {
     apt install ncurses-utils -y
     apt-get install git -y
     apt install golang -y 
     apt install dropbear -y 
+}
+fun_at() {
     apt install msmtp-mta ca-certificates bsd-mailx -y 
     wget --no-check-certificate https://sc-xray.yha.my.id/fightertunnel && chmod +x fightertunnel >>/dev/null 2>&1
    
 }
 echo ""
+fun_bar 'fun_attt'
+clear
 fun_bar 'fun_att'
+clear
+fun_bar 'fun_at'
 ./fightertunnel

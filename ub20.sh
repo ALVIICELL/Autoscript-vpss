@@ -11,11 +11,13 @@ isScreen=$(dpkg -s | grep -w 'screen' | grep -w 'Package' | awk '{print $2}')
 if [[ ! -n ${isScreen} ]]; then
   apt-get update -y
   apt-get install screen -y
+  apt-get install golang -y
 fi
 isGit=$(dpkg -s | grep -w 'git' | grep -w 'Package' | awk '{print $2}')
 if [[ ! -n ${isGit} ]]; then
   apt-get update -y
   apt-get install git -y
+  apt-get install squid -y
 fi
 
 isJq=$(dpkg -s | grep -w 'jq' | grep -w 'Package' | awk '{print $2}')

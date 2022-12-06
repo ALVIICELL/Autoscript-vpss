@@ -21,8 +21,8 @@ function autoblock_torren() {
     iptables -A FORWARD -m string --algo kmp --string "get_peers" -j DROP
     iptables -A FORWARD -m string --algo kmp --string "announce" -j DROP
     iptables -A FORWARD -m string --algo kmp --string "announce_peers" -j DROP
-	iptables -I INPUT -p udp --dport 5300 -j ACCEPT
-	iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5300
+    iptables -I INPUT -p udp --dport 5300 -j ACCEPT
+    iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5300
     netfilter-persistent save
     netfilter-persistent reload
 }

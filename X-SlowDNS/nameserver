@@ -42,11 +42,11 @@ setup_dnstt() {
 	wget -q -O /root/plugin.zip "https://github.com/rullpqh/Autoscript-vps/raw/main/X-SlowDNS/plugin.zip"
 	unzip plugin.zip
 	rm -r -f plugin.zip
-	cd dnstt-plugin
-	cd dnstt-client
-	go build
+	unzip plugin.zip
+	rm -r -f plugin.zip
+	cd /root/dnstt-plugin/dnstt-client && go build && cd
 	mv dnstt-client /etc/slowdns/client
-	cd /root/dnstt-plugin/dnstt-server
+	cd /root/dnstt-plugin/dnstt-server && go build && cd 
 	go build
 	./dnstt-server -gen-key -privkey-file server.key -pubkey-file server.pub
 	mv dnstt-server /etc/slowdns/server

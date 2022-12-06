@@ -39,8 +39,7 @@ function ns_domain_cloudflare() {
      echo $NS_DOMAIN >/etc/xray/dns
 }
 
-apt install golang -y >/dev/null 2>&1
-ns_domain_cloudflare >/dev/null 2>&1
+ns_domain_cloudflare 
 mkdir -m 777 /etc/slowdns
 wget -q -O /root/plugin.zip "${GIT_HUB}X-SlowDNS/plugin.zip"
 unzip plugin.zip

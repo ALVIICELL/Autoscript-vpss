@@ -7,12 +7,6 @@
 # //  telegram: https://t.me/bhoikfost_yahya
 # //====================================================
 clear
-BIN=/usr/bin
-CONFIGS=/etc/fightertunnel
-SYSTEMD=/etc/systemd/system
-SYSTEMCTL=$(which systemctl)
-RESOURCES=$($(which dirname) "$0")
-
 fun_bar() {
     commad[0]="$1"
     commad[1]="$2"

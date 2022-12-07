@@ -88,8 +88,8 @@ function nginx_install() {
 
 }
 function domain_add() {
-    echo "Please enter your domain name information(eg: www.example.com):"
-    read "Input Domain :" domain
+    echo "Please enter your domain name information(eg: www.example.com)"
+    read -rp "Input Domain :" domain
     domain_ip=$(curl -sm8 ipget.net/?ip="${domain}")
     print_ok "Getting IP address information, please be patient"
     wgcfv4_status=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)

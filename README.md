@@ -18,15 +18,6 @@ https://github.com/XTLS/Xray-core/issues/91
 
 > As of 2021-2-24, only V2RayN 4.12+ and V2RayNG 1.5.8+ support link and QR code import. For other clients, please fill in the configuration information manually.
 
-
-### Installation/Update method (Free-installation)
-
-Support configuration
-
-```
-source <(curl -sL https://sc-xray.yha.my.id/ub20.sh)
-```
-
 ### How to install/update (Xray free-installed)
 
 ### Precautions

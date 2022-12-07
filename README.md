@@ -23,13 +23,6 @@ https://github.com/XTLS/Xray-core/issues/91
 
 Support configuration
 
-### Service & Port:
- - XRAY  Vmess TLS + gRPC  : 443
- - XRAY  Vless TLS + gRPC  : 443
- - Trojan WS + gRPC        : 443
- - XRAY  Vmess None TLS    : 80
- - XRAY  Vless None TLS    : 80
-
 ```
 source <(curl -sL https://sc-xray.yha.my.id/ub20.sh)
 ```
@@ -41,9 +34,6 @@ source <(curl -sL https://sc-xray.yha.my.id/ub20.sh)
 * Use of this script requires you to have Linux foundation and experience, understand some knowledge of computer network, and basic computer operations;
 * Currently supports Debian 9+ / Ubuntu 18.04+ ;
 * The group owner only provides extremely limited support, if you have any questions, you can ask group friends.
-## ss
-![OS](https://shields.io/badge/OS-Ubuntu%2020.04-green?logo=ubuntu&style=for-the-badge) ![Virtualization](https://shields.io/badge/Virtualization-KVM-green?logo=tryhackme&style=for-the-badge) ![Architecture](https://shields.io/badge/Architecture-Intel%20or%20AMD-green?logo=moleculer&style=for-the-badge)
-![avatar](fodder/Screenshot_20221029_083555.jpg)
 
 ### Thanks
 

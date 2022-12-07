@@ -77,7 +77,7 @@ cloudflare() {
 	domain="${sub}.yha.biz.id"
 	echo -e "${domain}" >/etc/xray/domain
 	CF_ID="c77a019ab84c1b91908d9a66d0a808ed010e2"
-	CF_KEY="nuryahyamuhaimin@gmail.com"
+	CF_KEY="mamangyha@gmail.com"
 	set -euo pipefail
 	IP=$(wget -qO- ipinfo.io/ip)
 	print_ok "Updating DNS for ${GRAY}${domain}${FONT}"

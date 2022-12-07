@@ -22,7 +22,6 @@ iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 143 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 10000 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 10001 -j ACCEPT
-iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 81 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 10002 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 10003 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 10004 -j ACCEPT
@@ -50,7 +49,6 @@ iptables -I INPUT -m state --state NEW -m udp -p udp --dport 143 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10000 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 80 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10001 -j ACCEPT
-iptables -I INPUT -m state --state NEW -m udp -p udp --dport 81 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10002 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10003 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10004 -j ACCEPT

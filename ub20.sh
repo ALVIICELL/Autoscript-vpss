@@ -89,9 +89,9 @@ function nginx_install() {
 }
 function domain_add() {
 
-    DOMAINCF=yha.biz.id
-    sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
-    SUB_DOMAIN=xray${sub}.yha.biz.id
+    DOMAINCF=fightertunnel.my.id
+    sub=$(tr </dev/urandom -dc a-z0-9 | head -c5)
+    SUB_DOMAIN=xray${sub}.fightertunnel.my.id
     CF_ID=fightertunnel@gmail.com
     CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
 

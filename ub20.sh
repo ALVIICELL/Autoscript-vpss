@@ -499,8 +499,8 @@ function dependency_install() {
 
 function install_sc() {
     make_folder_xray
-    domain_add
     dependency_install
+    domain_add
     acme
     nginx_install
     configure_nginx

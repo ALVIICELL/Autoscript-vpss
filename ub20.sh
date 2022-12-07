@@ -97,7 +97,6 @@ function domain_add() {
 
     set -euo pipefail
     IP=$(wget -qO- ipinfo.io/ip)
-    echo "Record DNS ${SUB_DOMAIN}..."
     ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAINCF}&status=active" \
         -H "X-Auth-Email: ${CF_ID}" \
         -H "X-Auth-Key: ${CF_KEY}" \

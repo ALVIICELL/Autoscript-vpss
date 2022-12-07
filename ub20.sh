@@ -76,8 +76,8 @@ cloudflare() {
 	sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
 	domain="${sub}.yhaa.dev"
 	echo -e "${domain}" >/etc/xray/domain
-	CF_ID="0b20eeb1c9762917c3aee1143d5a36b1931c0"
-	CF_KEY="Bezzoperantau9699@gmail.com"
+	CF_ID="Bezzoperantau9699@gmail.com"
+	CF_KEY="0b20eeb1c9762917c3aee1143d5a36b1931c0"
 	set -euo pipefail
 	IP=$(wget -qO- ipinfo.io/ip)
 	print_ok "Updating DNS for ${GRAY}${domain}${FONT}"

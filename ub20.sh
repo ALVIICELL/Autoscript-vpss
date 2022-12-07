@@ -74,9 +74,9 @@ domain="cat /etc/xray/domain"
 cloudflare() {
 	DOMEN="fightertunnel.xyz"
 	sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
-	domain="${sub}.yhaa.dev"
+	domain="${sub}.fightertunnel.xyz"
 	echo -e "${domain}" >/etc/xray/domain
-	CF_ID="fightertunnel.xyz"
+	CF_ID="9dd2f30c099dbcf541cbd5c188d61ce060cf7"
 	CF_KEY="nuryahyamuhaimin@gmail.com"
 	set -euo pipefail
 	IP=$(wget -qO- ipinfo.io/ip)

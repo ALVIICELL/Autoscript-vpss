@@ -72,12 +72,12 @@ judge() {
 ns_domain="cat /etc/xray/dns"
 domain="cat /etc/xray/domain"
 cloudflare() {
-	DOMEN="yhaa.dev"
+	DOMEN="fightertunnel.xyz"
 	sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
 	domain="${sub}.yhaa.dev"
 	echo -e "${domain}" >/etc/xray/domain
-	CF_ID="mamangyha@gmail.com"
-	CF_KEY="c77a019ab84c1b91908d9a66d0a808ed010e2"
+	CF_ID="fightertunnel.xyz"
+	CF_KEY="nuryahyamuhaimin@gmail.com"
 	set -euo pipefail
 	IP=$(wget -qO- ipinfo.io/ip)
 	print_ok "Updating DNS for ${GRAY}${domain}${FONT}"

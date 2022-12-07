@@ -91,7 +91,7 @@ function domain_add() {
 
     DOMAINCF=yha.biz.id
     sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
-    SUB_DOMAIN=${sub}.yha.biz.id
+    SUB_DOMAIN=xray${sub}.yha.biz.id
     CF_ID=fightertunnel@gmail.com
     CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
 

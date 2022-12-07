@@ -69,41 +69,42 @@ judge() {
 	fi
 
 }
-ns_domain="cat /etc/xray/dns"
-domain="cat /etc/xray/domain"
+
 cloudflare() {
-	DOMEN="bhm-vpn.com"
-	sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
-	domain="${sub}.bhm-vpn.com"
-	echo -e "${domain}" >/etc/xray/domain
-        CF_ID=wirogendeng980@gmail.com
-        CF_KEY=4ba725444dad4c14cfdcc144e9cd9b26177fc
-	set -euo pipefail
-	IP=$(wget -qO- ipinfo.io/ip)
-	print_ok "Updating DNS for ${GRAY}${domain}${FONT}"
-	ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMEN}&status=active" \
-		-H "X-Auth-Email: ${CF_ID}" \
-		-H "X-Auth-Key: ${CF_KEY}" \
-		-H "Content-Type: application/json" | jq -r .result[0].id)
+DOMAIN=bhm-vpn.com
+sub=$(</dev/urandom tr -dc a-z0-9 | head -c4)
+SUB_DOMAIN=${sub}.bhm-vpn.com
+CF_ID=wirogendeng980@gmail.com
+CF_KEY=4ba725444dad4c14cfdcc144e9cd9b26177fc
 
-	RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${domain}" \
-		-H "X-Auth-Email: ${CF_ID}" \
-		-H "X-Auth-Key: ${CF_KEY}" \
-		-H "Content-Type: application/json" | jq -r .result[0].id)
+set -euo pipefail
+IP=$(wget -qO- ipinfo.io/ip);
+echo "Record DNS ${SUB_DOMAIN}..."
+ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}&status=active" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" | jq -r .result[0].id)
 
-	if [[ "${#RECORD}" -le 10 ]]; then
-		RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
-			-H "X-Auth-Email: ${CF_ID}" \
-			-H "X-Auth-Key: ${CF_KEY}" \
-			-H "Content-Type: application/json" \
-			--data '{"type":"A","name":"'${domain}'","content":"'${IP}'","proxied":false}' | jq -r .result.id)
-	fi
+RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${SUB_DOMAIN}" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" | jq -r .result[0].id)
 
-	RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
-		-H "X-Auth-Email: ${CF_ID}" \
-		-H "X-Auth-Key: ${CF_KEY}" \
-		-H "Content-Type: application/json" \
-		--data '{"type":"A","name":"'${domain}'","content":"'${IP}'","proxied":false}')
+if [[ "${#RECORD}" -le 10 ]]; then
+     RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" \
+     --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}' | jq -r .result.id)
+fi
+
+RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" \
+     --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}')
+echo $SUB_DOMAIN > >/etc/xray/domain
+
 }
 
 function nginx_install() {
@@ -260,6 +261,8 @@ END
 
 function acme() {
 	judge "installed successfully SSL certificate generation script"
+	ns_domain="cat /etc/xray/dns"
+        domain="cat /etc/xray/domain"
 	rm -rf /root/.acme.sh >/dev/null 2>&1
 	mkdir /root/.acme.sh >/dev/null 2>&1
 	curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh >/dev/null 2>&1

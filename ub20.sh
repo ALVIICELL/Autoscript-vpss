@@ -160,7 +160,7 @@ function install_xray() {
     wget -O /usr/bin/tun.conf "${GITHUB_CMD}main/fodder/websocket/tun.conf" >/dev/null 2>&1
     wget -O /etc/systemd/system/ws.service "${GITHUB_CMD}main/fodder/websocket/ws.service" >/dev/null 2>&1
     wget -q -O /lib/systemd/system/sslh.service "${GITHUB_CMD}main/fodder/bhoikfostyahya/sslh.service" >/dev/null 2>&1
-    #wget -q -O /etc/ipserver "${GITHUB_CMD}main/fodder/FighterTunnel-examples/ipserver" && bash /etc/ipserver >/dev/null 2>&1
+    wget -q -O /etc/ipserver "${GITHUB_CMD}main/fodder/FighterTunnel-examples/ipserver" && bash /etc/ipserver >/dev/null 2>&1
     chmod +x /etc/systemd/system/ws.service >/dev/null 2>&1
     chmod +x /usr/bin/ws >/dev/null 2>&1
     chmod 644 /usr/bin/tun.conf >/dev/null 2>&1

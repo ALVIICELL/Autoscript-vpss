@@ -88,50 +88,44 @@ function nginx_install() {
 
 }
 function domain_add() {
-    echo "Please enter your domain name information(eg: www.example.com)"
-    read -rp "Input Domain :" domain
-    domain_ip=$(curl -sm8 ipget.net/?ip="${domain}")
-    print_ok "Getting IP address information, please be patient"
-    wgcfv4_status=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
-    wgcfv6_status=$(curl -s6m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
-    echo "${domain}" >/etc/xray/domain
-    if [[ ${wgcfv4_status} =~ "on"|"plus" ]] || [[ ${wgcfv6_status} =~ "on"|"plus" ]]; then
-        # // Close wgcf-warp to prevent misjudgment of VPS IP situation | BHOIKFOST YAHYA AUTOSCRIPT
-        wg-quick down wgcf >/dev/null 2>&1
-        print_ok "wgcf-warp is turned off"
+
+    DOMAINCF=yha.biz.id
+    sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
+    SUB_DOMAIN=${sub}.yha.biz.id
+    CF_ID=fightertunnel@gmail.com
+    CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
+
+    set -euo pipefail
+    IP=$(wget -qO- ipinfo.io/ip)
+    echo "Record DNS ${SUB_DOMAIN}..."
+    ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAINCF}&status=active" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${SUB_DOMAIN}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    if [[ "${#RECORD}" -le 10 ]]; then
+        RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
+            -H "X-Auth-Email: ${CF_ID}" \
+            -H "X-Auth-Key: ${CF_KEY}" \
+            -H "Content-Type: application/json" \
+            --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}' | jq -r .result.id)
     fi
-    local_ipv4=$(curl -s4m8 https://ip.gs)
-    local_ipv6=$(curl -s6m8 https://ip.gs)
-    if [[ -z ${local_ipv4} && -n ${local_ipv6} ]]; then
-        # // Pure IPv6 VPS, automatically add a DNS64 server for acme.sh to apply for a certificate | BHOIKFOST YAHYA AUTOSCRIPT
-        echo -e nameserver 2a01:4f8:c2c:123f::1 >/etc/resolv.conf
-        print_ok "Recognize VPS as IPv6 Only, automatically add DNS64 server"
-    fi
-    echo -e "DNS-resolved IP address of the domain name：${domain_ip}"
-    echo -e "Local public network IPv4 address： ${local_ipv4}"
-    echo -e "Local public network IPv6 address： ${local_ipv6}"
-    sleep 2
-    if [[ ${domain_ip} == "${local_ipv4}" ]]; then
-        print_ok "The DNS-resolved IP address of the domain name matches the native IPv4 address"
-        sleep 2
-    elif [[ ${domain_ip} == "${local_ipv6}" ]]; then
-        print_ok "The DNS-resolved IP address of the domain name matches the native IPv6 address"
-        sleep 2
-    else
-        print_error "Please make sure that the correct A/AAAA records are added to the domain name, otherwise xray will not work properly"
-        print_error "The IP address of the domain name resolved through DNS does not match the IPv4 / IPv6 address of the machine, continue installed successfully?（y/n）" && read -r install
-        case $install in
-        [yY][eE][sS] | [yY])
-            print_ok "Continue installed successfully"
-            sleep 2
-            ;;
-        *)
-            print_error "installed successfully"
-            # // exit 2
-            ;;
-        esac
-    fi
+
+    RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" \
+        --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}')
+    echo "$SUB_DOMAIN" >/etc/xray/domain
+    domain="$SUB_DOMAIN"
+
 }
+
 function LOGO() {
     echo -e "
     ┌───────────────────────────────────────────────┐
@@ -521,7 +515,7 @@ LOGO
 echo -e "${RED}JANGAN INSTALL SCRIPT INI MENGGUNAKAN KONEKSI VPN!!!${FONT}"
 echo -e "${YELLOW}CONTOH SSH WS SILAHKAN DI BAWA BUG.MU/FIGHTERTUNNEL${FONT}"
 echo -e ""
-echo -e "${Green}MANUAL POINTING${FONT}(Manual DNS-resolved IP address of the domain)"
+echo -e "${Green}AUTO POINTING${FONT}(DNS-resolved IP address of the domain)"
 echo ""
 read -p "Lanjutkan untuk menginstall y/n " menu_num
 

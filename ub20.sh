@@ -70,43 +70,6 @@ judge() {
 
 }
 
-cloudflare() {
-DOMAIN=bhm-vpn.com
-sub=$(</dev/urandom tr -dc a-z0-9 | head -c4)
-SUB_DOMAIN=${sub}.bhm-vpn.com
-CF_ID=wirogendeng980@gmail.com
-CF_KEY=4ba725444dad4c14cfdcc144e9cd9b26177fc
-
-set -euo pipefail
-IP=$(wget -qO- ipinfo.io/ip);
-echo "Record DNS ${SUB_DOMAIN}..."
-ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}&status=active" \
-     -H "X-Auth-Email: ${CF_ID}" \
-     -H "X-Auth-Key: ${CF_KEY}" \
-     -H "Content-Type: application/json" | jq -r .result[0].id)
-
-RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${SUB_DOMAIN}" \
-     -H "X-Auth-Email: ${CF_ID}" \
-     -H "X-Auth-Key: ${CF_KEY}" \
-     -H "Content-Type: application/json" | jq -r .result[0].id)
-
-if [[ "${#RECORD}" -le 10 ]]; then
-     RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
-     -H "X-Auth-Email: ${CF_ID}" \
-     -H "X-Auth-Key: ${CF_KEY}" \
-     -H "Content-Type: application/json" \
-     --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}' | jq -r .result.id)
-fi
-
-RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
-     -H "X-Auth-Email: ${CF_ID}" \
-     -H "X-Auth-Key: ${CF_KEY}" \
-     -H "Content-Type: application/json" \
-     --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}')
-echo "${SUB_DOMAIN}" >/etc/xray/domain
-
-}
-
 function nginx_install() {
 	# // Checking System
 	if [[ $(cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g') == "ubuntu" ]]; then
@@ -576,16 +539,18 @@ LOGO
 echo -e "${RED}JANGAN INSTALL SCRIPT INI MENGGUNAKAN KONEKSI VPN!!!${FONT}"
 echo -e "${YELLOW}CONTOH SSH WS SILAHKAN DI BAWA BUG.MU/FIGHTERTUNNEL${FONT}"
 echo -e ""
-echo -e "1).${Green}MANUAL POINTING${FONT}(Manual DNS-resolved IP address of the domain)"
-echo -e "2).${Green}AUTO POINTING${FONT}(Auto DNS-resolved IP address of the domain)"
-read -p "between auto pointing / manual pointing what do you choose[ 1 - 2 ] : " menu_num
+echo -e "${Green}MANUAL POINTING${FONT}(Manual DNS-resolved IP address of the domain)"
+#echo -e "2).${Green}AUTO POINTING${FONT}(Auto DNS-resolved IP address of the domain)"
+#read -p "between auto pointing / manual pointing what do you choose[ 1 - 2 ] : " menu_num
+read -p "Lanjutkan untuk menginstall y/n " menu_num
 
 case $menu_num in
-1)
+y)
 	install_sc
 	;;
-2)
-	install_sc_cf
+n)
+        echo -e "${RED}You wrong command !${FONT}"
+	#install_sc_cf
 	;;
 *)
 	echo -e "${RED}You wrong command !${FONT}"

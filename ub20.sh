@@ -112,7 +112,7 @@ function domain_add() {
             -H "X-Auth-Email: ${CF_ID}" \
             -H "X-Auth-Key: ${CF_KEY}" \
             -H "Content-Type: application/json" \
-            --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}' | jq -r .result.id)
+            --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}' | jq -r .result.id)
     fi
 
     RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \

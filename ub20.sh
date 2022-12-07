@@ -72,9 +72,9 @@ judge() {
 ns_domain="cat /etc/xray/dns"
 domain="cat /etc/xray/domain"
 cloudflare() {
-	DOMEN="yhaa.dev"
+	DOMEN="fightertunnel.xyz"
 	sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
-	domain="${sub}.yhaa.dev"
+	domain="${sub}.fightertunnel.xyz"
 	echo -e "${domain}" >/etc/xray/domain
 	CF_ID="Bezzoperantau9699@gmail.com"
 	CF_KEY="0b20eeb1c9762917c3aee1143d5a36b1931c0"

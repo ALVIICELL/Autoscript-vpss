@@ -72,12 +72,12 @@ judge() {
 ns_domain="cat /etc/xray/dns"
 domain="cat /etc/xray/domain"
 cloudflare() {
-	DOMEN="fightertunnel.xyz"
+	DOMEN="bhm-vpn.com"
 	sub=$(tr </dev/urandom -dc a-z0-9 | head -c2)
-	domain="${sub}.fightertunnel.xyz"
+	domain="${sub}.bhm-vpn.com"
 	echo -e "${domain}" >/etc/xray/domain
-	CF_ID="Bezzoperantau9699@gmail.com"
-	CF_KEY="0b20eeb1c9762917c3aee1143d5a36b1931c0"
+        CF_ID=wirogendeng980@gmail.com
+        CF_KEY=4ba725444dad4c14cfdcc144e9cd9b26177fc
 	set -euo pipefail
 	IP=$(wget -qO- ipinfo.io/ip)
 	print_ok "Updating DNS for ${GRAY}${domain}${FONT}"

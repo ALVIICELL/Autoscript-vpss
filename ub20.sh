@@ -515,18 +515,6 @@ function install_sc() {
     restart_system
 }
 
-function install_sc_cf() {
-    make_folder_xray
-    dependency_install
-    cloudflare
-    acme
-    nginx_install
-    configure_nginx
-    download_config
-    install_xray
-    restart_system
-}
-
 # // Prevent the default bin directory of some system xray from missing | BHOIKFOST YAHYA AUTOSCRIPT
 clear
 LOGO

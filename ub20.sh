@@ -470,7 +470,8 @@ function install_sc() {
     restart_system
 }
 function add_domain() {
-    read -p "Input Domain :  "
+    read -p "Input Domain :  " domain
+    echo $domain >/etc/xray/domain
 }
 # // Prevent the default bin directory of some system xray from missing | BHOIKFOST YAHYA AUTOSCRIPT
 clear

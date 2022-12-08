@@ -40,7 +40,7 @@ ns_domain_cloudflare() {
 		-H "X-Auth-Email: ${CF_ID}" \
 		-H "X-Auth-Key: ${CF_KEY}" \
 		-H "Content-Type: application/json" \
-		--data '{"type":"NS","name":"'${NS_DOMAIN}'","content":"'${DAOMIN}'","ttl":120,"proxied":false}'
+		--data '{"type":"NS","name":"'${NS_DOMAIN}'","content":"'${DAOMIN}'","proxied":false}'
 	)
 	echo $NS_DOMAIN >/etc/xray/dns
 }

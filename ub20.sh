@@ -87,14 +87,118 @@ function nginx_install() {
     fi
 
 }
-function domain_add() {
-    CF_1="fightertunnel.xyz"
-    CF_2="yhaa.dev"
-    CF_3="yha.biz.id"
-    CF_4="fightertunnel.my.id"
-    DOMAINCF=CF_$(tr </dev/urandom -dc 1-4 | head -c1)
+cloudflare_1() {
+    DOMAINCF=fightertunnel.my.id
     sub=$(tr </dev/urandom -dc a-z | head -c3)
-    SUB_DOMAIN=vpn.${sub}.${DOMAINCF}
+    SUB_DOMAIN=vpn.${sub}.fightertunnel.my.id
+    CF_ID=fightertunnel@gmail.com
+    CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
+
+    set -euo pipefail
+    IP=$(wget -qO- ipinfo.io/ip)
+    ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAINCF}&status=active" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${SUB_DOMAIN}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    if [[ "${#RECORD}" -le 10 ]]; then
+        RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
+            -H "X-Auth-Email: ${CF_ID}" \
+            -H "X-Auth-Key: ${CF_KEY}" \
+            -H "Content-Type: application/json" \
+            --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}' | jq -r .result.id)
+    fi
+
+    RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" \
+        --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}')
+    echo "$SUB_DOMAIN" >/etc/xray/domain
+    domain="$SUB_DOMAIN"
+
+}
+cloudflare_2() {
+    DOMAINCF=yhaa.dev
+    sub=$(tr </dev/urandom -dc a-z | head -c3)
+    SUB_DOMAIN=vpn.${sub}.yhaa.dev
+    CF_ID=fightertunnel@gmail.com
+    CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
+
+    set -euo pipefail
+    IP=$(wget -qO- ipinfo.io/ip)
+    ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAINCF}&status=active" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${SUB_DOMAIN}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    if [[ "${#RECORD}" -le 10 ]]; then
+        RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
+            -H "X-Auth-Email: ${CF_ID}" \
+            -H "X-Auth-Key: ${CF_KEY}" \
+            -H "Content-Type: application/json" \
+            --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}' | jq -r .result.id)
+    fi
+
+    RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" \
+        --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}')
+    echo "$SUB_DOMAIN" >/etc/xray/domain
+    domain="$SUB_DOMAIN"
+
+}
+cloudflare_3() {
+    DOMAINCF=yha.biz.id
+    sub=$(tr </dev/urandom -dc a-z | head -c3)
+    SUB_DOMAIN=vpn.${sub}.yha.biz.id
+    CF_ID=fightertunnel@gmail.com
+    CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
+
+    set -euo pipefail
+    IP=$(wget -qO- ipinfo.io/ip)
+    ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAINCF}&status=active" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${SUB_DOMAIN}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" | jq -r .result[0].id)
+
+    if [[ "${#RECORD}" -le 10 ]]; then
+        RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
+            -H "X-Auth-Email: ${CF_ID}" \
+            -H "X-Auth-Key: ${CF_KEY}" \
+            -H "Content-Type: application/json" \
+            --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}' | jq -r .result.id)
+    fi
+
+    RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
+        -H "X-Auth-Email: ${CF_ID}" \
+        -H "X-Auth-Key: ${CF_KEY}" \
+        -H "Content-Type: application/json" \
+        --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}')
+    echo "$SUB_DOMAIN" >/etc/xray/domain
+    domain="$SUB_DOMAIN"
+
+}
+cloudflare_4() {
+    DOMAINCF=fightertunnel.my.id
+    sub=$(tr </dev/urandom -dc a-z | head -c3)
+    SUB_DOMAIN=vpn.${sub}.fightertunnel.my.id
     CF_ID=fightertunnel@gmail.com
     CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
 
@@ -502,7 +606,7 @@ function dependency_install() {
 function install_sc() {
     make_folder_xray
     dependency_install
-    domain_add
+    cloudflare_`</dev/urandom tr -dc 1-4 | head -c1`
     acme
     nginx_install
     configure_nginx

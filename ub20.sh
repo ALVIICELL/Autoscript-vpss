@@ -54,7 +54,6 @@ function is_root() {
         print_ok "Root user Start installation process"
     else
         print_error "The current user is not the root user, please switch to the root user and run the script again"
-        # // exit 1
     fi
 
 }
@@ -63,11 +62,7 @@ judge() {
     if [[ 0 -eq $? ]]; then
         print_ok "$1 Complete... | thx to ${YELLOW}bhoikfostyahya${FONT}"
         sleep 1
-    #else
-      #  print_error "$1 Fail... | thx to ${YELLOW}bhoikfostyahya${FONT}"
-        # // exit 1
     fi
-
 }
 
 function nginx_install() {

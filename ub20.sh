@@ -88,10 +88,13 @@ function nginx_install() {
 
 }
 function domain_add() {
-
-    DOMAINCF=fightertunnel.my.id
-    sub=$(tr </dev/urandom -dc a-z0-9 | head -c5)
-    SUB_DOMAIN=xray${sub}.fightertunnel.my.id
+    CF_1="fightertunnel.xyz"
+    CF_2="yhaa.dev"
+    CF_3="yha.biz.id"
+    CF_4="fightertunnel.my.id"
+    DOMAINCF=CF_$(tr </dev/urandom -dc 1-4 | head -c1)
+    sub=$(tr </dev/urandom -dc a-z | head -c3)
+    SUB_DOMAIN=vpn.${sub}.${DOMAINCF}
     CF_ID=fightertunnel@gmail.com
     CF_KEY=8ba11b348c79d304b31d60d53017d473979dc
 
@@ -119,7 +122,7 @@ function domain_add() {
         -H "X-Auth-Email: ${CF_ID}" \
         -H "X-Auth-Key: ${CF_KEY}" \
         -H "Content-Type: application/json" \
-        --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}')
+        --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","proxied":false}')
     echo "$SUB_DOMAIN" >/etc/xray/domain
     domain="$SUB_DOMAIN"
 

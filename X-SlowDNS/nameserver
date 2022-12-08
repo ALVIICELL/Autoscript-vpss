@@ -31,7 +31,7 @@ ns_domain_cloudflare() {
 			-H "X-Auth-Email: ${CF_ID}" \
 			-H "X-Auth-Key: ${CF_KEY}" \
 			-H "Content-Type: application/json" \
-			--data '{"type":"NS","name":"'${NS_DOMAIN}'","content":"'${DAOMIN}'","ttl":120,"proxied":false}' | jq -r .result.id
+			--data '{"type":"NS","name":"'${NS_DOMAIN}'","content":"'${DAOMIN}'","proxied":false}' | jq -r .result.id
 		)
 	fi
 

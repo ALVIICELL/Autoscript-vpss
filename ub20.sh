@@ -461,7 +461,6 @@ function dependency_install() {
 
 function install_sc() {
     dependency_install
-    add_domain
     acme
     nginx_install
     configure_nginx

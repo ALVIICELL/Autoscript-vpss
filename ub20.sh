@@ -63,8 +63,8 @@ judge() {
     if [[ 0 -eq $? ]]; then
         print_ok "$1 Complete... | thx to ${YELLOW}bhoikfostyahya${FONT}"
         sleep 1
-    else
-        print_error "$1 Fail... | thx to ${YELLOW}bhoikfostyahya${FONT}"
+    #else
+      #  print_error "$1 Fail... | thx to ${YELLOW}bhoikfostyahya${FONT}"
         # // exit 1
     fi
 

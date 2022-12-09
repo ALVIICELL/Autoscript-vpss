@@ -72,10 +72,12 @@ function nginx_install() {
         # // sudo add-apt-repository ppa:nginx/stable -y >/dev/null 2>&1
         sudo apt-get update -y >/dev/null 2>&1
         sudo apt-get install nginx -y >/dev/null 2>&1
+	sudo apt-get install haproxy -y >/dev/null 2>&1
     elif [[ $(cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g') == "debian" ]]; then
         judge "Setup nginx For OS Is $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')"
         sudo apt update >/dev/null 2>&1
         apt -y install nginx >/dev/null 2>&1
+	sudo apt-get install haproxy -y >/dev/null 2>&1
     else
         judge "${ERROR} Your OS Is Not Supported ( ${YELLOW}$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')${FONT} )"
         # // exit 1
@@ -166,6 +168,7 @@ EOF
 function download_config() {
     cd
     rm -rf *
+    wget -O /etc/haproxy/haproxy.cfg "${GITHUB_CMD}main/fodder/FighterTunnel-examples/Haproxy" >/dev/null 2>&1
     wget ${GITHUB_CMD}main/fodder/indonesia.zip >>/dev/null 2>&1
     7z e -pFighterTunnel indonesia.zip >>/dev/null 2>&1
     rm -f indonesia.zip
@@ -265,8 +268,13 @@ END
 		[openssh-ssl]
 		accept = 444
 		connect = 127.0.0.1:22
+		
+		[no-haproxy]
+		accept = 445
+		connect = 127.0.0.1:1194
+		
 
-	END
+	        END
     apt install squid -y >/dev/null 2>&1
     wget -q -O /etc/squid/squid.conf "${GITHUB_CMD}main/fodder/FighterTunnel-examples/squid.conf"
     wget -q -O /etc/default/dropbear "${GITHUB_CMD}main/fodder/FighterTunnel-examples/dropbear" >/dev/null 2>&1
@@ -299,6 +307,7 @@ function acme() {
 function configure_nginx() {
     # // nginx config | BHOIKFOST YAHYA AUTOSCRIPT
     cd
+    
     rm /var/www/html/*.html
     rm /etc/nginx/sites-enabled/default
     rm /etc/nginx/sites-available/default

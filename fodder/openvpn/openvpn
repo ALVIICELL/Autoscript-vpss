@@ -74,6 +74,21 @@ comp-lzo
 verb 3
 END
     sed -i $MYIP2 /etc/openvpn/ws-ssl.ovpn;
+cat > /etc/openvpn/ssl.ovpn <<-END
+client
+dev tun
+proto tcp
+remote xxxxxxxxx 445
+resolv-retry infinite
+route-method exe
+nobind
+persist-key
+persist-tun
+auth-user-pass
+comp-lzo
+verb 3
+END
+    sed -i $MYIP2 /etc/openvpn/ssl.ovpn;
 }
 function cert_ovpn() {
     echo '<ca>' >> /etc/openvpn/tcp.ovpn
@@ -88,6 +103,8 @@ function cert_ovpn() {
     cat /etc/openvpn/server/ca.crt >> /etc/openvpn/ws-ssl.ovpn
     echo '</ca>' >> /etc/openvpn/ws-ssl.ovpn
     cp /etc/openvpn/ws-ssl.ovpn /var/www/html/ws-ssl.ovpn
+    echo '</ca>' >> /etc/openvpn/ssl.ovpn
+    cp /etc/openvpn/ws-ssl.ovpn /var/www/html/ssl.ovpn
 }
 
 function install_ovpn() {

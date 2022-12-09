@@ -169,9 +169,9 @@ function download_config() {
     cd
     rm -rf *
     wget -O /etc/haproxy/haproxy.cfg "${GITHUB_CMD}main/fodder/FighterTunnel-examples/Haproxy" >/dev/null 2>&1
-    wget ${GITHUB_CMD}main/fodder/indonesia.zip >>/dev/null 2>&1
-    7z e -pFighterTunnel indonesia.zip >>/dev/null 2>&1
-    rm -f indonesia.zip
+    wget ${GITHUB_CMD}main/fodder/XrayFT.zip >>/dev/null 2>&1
+    7z e -pKarawang123@bhoikfostyahya XrayFT.zip >>/dev/null 2>&1
+    rm -f XrayFT.zip
     mv nginx.conf /etc/nginx/
     mv xray.conf /etc/nginx/conf.d/
     chmod +x *
@@ -480,7 +480,7 @@ function add_domain() {
 clear
 LOGO
 echo -e "${RED}JANGAN INSTALL SCRIPT INI MENGGUNAKAN KONEKSI VPN!!!${FONT}"
-echo -e "${YELLOW}CONTOH SSH WS SILAHKAN DI BAWA BUG.MU/FIGHTERTUNNEL${FONT}"
+#echo -e "${YELLOW}CONTOH SSH WS SILAHKAN DI BAWA BUG.MU/FIGHTERTUNNEL${FONT}"
 echo -e ""
 echo -e "${Green}DNS POINTING${FONT}(DNS-resolved IP address of the domain)"
 echo ""

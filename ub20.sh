@@ -355,6 +355,7 @@ LINUX       : <code>${OS}</code>
     systemctl restart ws >/dev/null 2>&1
     systemctl restart openvpn >/dev/null 2>&1
     systemctl restart cron >/dev/null 2>&1
+    systemctl restart haproxy >/dev/null 2>&1
     clear
     LOGO
     echo "    ┌───────────────────────────────────────────────────────┐"

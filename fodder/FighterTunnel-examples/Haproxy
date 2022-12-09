@@ -44,7 +44,7 @@ mode tcp
 bind 0.0.0.0:443
 tcp-request inspect-delay 3s
 tcp-request content accept if { req.ssl_hello_type 1 }
-acl web req_ssl_sni -i hap.yha.my.id
+acl web req_ssl_sni -i yha.my.id
 use_backend web_back if web
 default_backend itil_vpn
 

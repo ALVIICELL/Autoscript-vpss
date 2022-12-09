@@ -272,9 +272,7 @@ END
 		[no-haproxy]
 		accept = 445
 		connect = 127.0.0.1:1194
-		
-
-	        END
+END
     apt install squid -y >/dev/null 2>&1
     wget -q -O /etc/squid/squid.conf "${GITHUB_CMD}main/fodder/FighterTunnel-examples/squid.conf"
     wget -q -O /etc/default/dropbear "${GITHUB_CMD}main/fodder/FighterTunnel-examples/dropbear" >/dev/null 2>&1

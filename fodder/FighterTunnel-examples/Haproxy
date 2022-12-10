@@ -47,13 +47,11 @@ tcp-request content accept if { req.ssl_hello_type 1 }
 acl web req_ssl_sni -i yha.my.id
 use_backend web_back if web
 default_backend itil_vpn
-
 acl methoded method GET HEAD
 use_backend itil_vpn if methoded
 use_backend no_Length if !{ req.len 0 }
 default_backend dns_vpn
 use_backend openresty_tls_http2 if HTTP { ssl_fc_alpn -i h2 }
-use_backend openresty_tls_http1_1 if HTTP
 default_backend drop_vpn
 
 backend web_back
@@ -67,10 +65,6 @@ server drop 127.0.0.1:109
 backend dns_vpn
 mode tcp
 server dns 127.0.0.1:88
-
-backend openresty_tls_http1_1
-mode tcp
-server server1 127.0.0.1:80
 
 backend openresty_tls_http2
 mode tcp

@@ -31,8 +31,8 @@ while true; do
 sleep 30
 for user in ${data[@]}
   do
-    if [ -e /etc/limit/shadowsocks/${user} ]; then
-      checkLimit=$(cat /etc/limit/shadowsocks/${user});
+    if [ -e /etc/shadowsocks/${user} ]; then
+      checkLimit=$(cat /etc/shadowsocks/${user});
       if [[ ${#checkLimit} -gt 1 ]]; then
       if [ -e /etc/limit/shadowsocks/${user} ]; then
       Usage=$(cat /etc/limit/shadowsocks/${user});

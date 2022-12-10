@@ -540,18 +540,6 @@ fun_fightertunnel() {
 }
 fun_bar 'fun_fightertunnel'
 clear
-echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
-tput setaf 7
-tput setab 4
-tput bold
-printf '%40s%s%-12s\n' "BHOIKFOST YAHYA AUTOSCRIPT"
-tput sgr0
-echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
-echo ""
-echo -e "          \033[1;33mUpgrade Completed! \033[0m  "
-echo ""
-sleep 7
-clear
 LOGO
 echo -e "${RED}JANGAN INSTALL SCRIPT INI MENGGUNAKAN KONEKSI VPN!!!${FONT}"
 echo -e ""

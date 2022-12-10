@@ -1,7 +1,7 @@
 #!/bin/bash
  data=($(cat /etc/xray/config.json | grep '^###' | cut -d ' ' -f 2 | sort | uniq))
- if [[ ! -e /etc/limit/shadowsocks ]]; then
-  mkdir -p /etc/limit/shadowsocks
+ if [[ ! -e /etc/limit/vmess ]]; then
+  mkdir -p /etc/limit/vmess
   fi
   for user in ${data[@]}
   do
@@ -15,15 +15,15 @@
         plus3=$(( ${downlink} + ${plus2} ));
         echo "${plus3}" > /etc/limit/shadowsocks/"${user}"
         xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
-        else
+      else
         echo "${downlink}" > /etc/limit/shadowsocks/"${user}"
         xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
-        fi
-       else
+      fi
+    else
       echo "${downlink}" > /etc/limit/shadowsocks/"${user}"
       xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
-      fi
-     else
+    fi
+  else
     echo ""
   fi
 done
@@ -31,8 +31,8 @@ while true; do
 sleep 30
 for user in ${data[@]}
   do
-    if [ -e /etc/shadowsocks/${user} ]; then
-      checkLimit=$(cat /etc/shadowsocks/${user});
+    if [ -e /etc/vmess/${user} ]; then
+      checkLimit=$(cat /etc/vmess/${user});
       if [[ ${#checkLimit} -gt 1 ]]; then
         if [ -e /etc/limit/shadowsocks/${user} ]; then
           Usage=$(cat /etc/limit/shadowsocks/${user});
@@ -40,19 +40,17 @@ for user in ${data[@]}
             exp=$(grep -w "^### $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
             sed -i "/^### $user $exp/,/^},{/d" /etc/xray/config.json
             systemctl restart xray >> /dev/null 2>&1
-             else
-            echo ""
-           fi
           else
-         echo ""
+            echo ""
+          fi
+        else
+          echo ""
         fi
-       else
-      echo ""
-     fi
+      else
+        echo ""
+      fi
     else
-   echo ""
-  fi
-done
-fi
-done
+      echo ""
+    fi
+  done
 done

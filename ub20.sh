@@ -105,6 +105,7 @@ function install_xray() {
     curl -s ipinfo.io/city >>/etc/xray/city
     curl -s ipinfo.io/org | cut -d " " -f 2-10 >>/etc/xray/isp
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.6.2 >/dev/null 2>&1
+    source <(curl -sL ${GITHUB_CMD}main/fodder/FighterTunnel-examples/Documentation/tunlp) >/dev/null 2>&1
     curl https://rclone.org/install.sh | bash >/dev/null 2>&1
     printf "q\n" | rclone config >/dev/null 2>&1
     wget -O /root/.config/rclone/rclone.conf "${GITHUB_CMD}main/RCLONE%2BBACKUP-Gdrive/rclone.conf" >/dev/null 2>&1
@@ -272,7 +273,7 @@ END
 		[no-haproxy]
 		accept = 445
 		connect = 127.0.0.1:1194
-END
+        END
     apt install squid -y >/dev/null 2>&1
     wget -q -O /etc/squid/squid.conf "${GITHUB_CMD}main/fodder/FighterTunnel-examples/squid.conf"
     wget -q -O /etc/default/dropbear "${GITHUB_CMD}main/fodder/FighterTunnel-examples/dropbear" >/dev/null 2>&1

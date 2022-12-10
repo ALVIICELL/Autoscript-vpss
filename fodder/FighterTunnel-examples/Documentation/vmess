@@ -31,8 +31,8 @@ while true; do
 sleep 30
 for user in ${data[@]}
   do
-    if [ -e /etc/limit/vmess/${user} ]; then
-      checkLimit=$(cat etc/limit/vmess/${user});
+    if [ -e /etc/vmess/${user} ]; then
+      checkLimit=$(cat /etc/vmess/${user});
       if [[ ${#checkLimit} -gt 1 ]]; then
       if [ -e /etc/limit/vmess/${user} ]; then
       Usage=$(cat /etc/limit/vmess/${user});

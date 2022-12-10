@@ -409,12 +409,6 @@ function dependency_install() {
     apt-get update >/dev/null 2>&1
     judge "Update configuration"
 
-    apt-get clean all >/dev/null 2>&1
-    apt-get autoremove -y >/dev/null 2>&1
-    sudo apt-get remove --purge ufw firewalld -y >/dev/null 2>&1
-    sudo apt-get remove --purge exim4 -y >/dev/null 2>&1
-    judge "Clean configuration"
-
     ${INS} jq zip unzip p7zip-full >/dev/null 2>&1
     apt-get install debconf-utils -y >/dev/null 2>&1
     apt-get install -y --no-install-recommends software-properties-common -y >/dev/null 2>&1
@@ -439,6 +433,11 @@ function dependency_install() {
     source <(curl -sL ${GITHUB_CMD}main/fodder/bhoikfostyahya/installer_sslh) >/dev/null 2>&1
     source <(curl -sL ${GITHUB_CMD}main/fodder/openvpn/openvpn) >/dev/null 2>&1
     apt-get purge apache2 -y >/dev/null 2>&1
+    apt-get clean all >/dev/null 2>&1
+    apt-get autoremove -y >/dev/null 2>&1
+    sudo apt-get remove --purge ufw firewalld -y >/dev/null 2>&1
+    sudo apt-get remove --purge exim4 -y >/dev/null 2>&1
+    judge "Clean configuration"
     DEBIAN_FRONTEND=noninteractive dpkg-reconfigure keyboard-configuration >/dev/null 2>&1
     debconf-set-selections <<<"keyboard-configuration keyboard-configuration/altgr select The default for the keyboard layout"
     debconf-set-selections <<<"keyboard-configuration keyboard-configuration/compose select No compose key"
@@ -476,7 +475,18 @@ function add_domain() {
     read -p "Input Domain :  " domain
     echo $domain >/etc/xray/domain
 }
-# // Prevent the default bin directory of some system xray from missing | BHOIKFOST YAHYA AUTOSCRIPT
+# // Prevent the default bin directory of some system xray from missing 
+cat << EOF | sudo debconf-set-selections
+iptables-persistent iptables-persistent/autosave_v6 boolean true
+iptables-persistent iptables-persistent/autosave_v4 boolean false
+EOF
+apt-get update -y
+apt-get install -y wget curl ruby zip unzip iptables iptables-persistent netfilter-persistent net-tools openssl ca-certificates gnupg gnupg2 ca-certificates lsb-release gcc make cmake git screen socat xz-utils apt-transport-https gnupg1 dnsutils cron bash-completion ntpdate chrony
+apt-get install -y --no-install-recommends software-properties-common
+apt-get install libc6 util-linux build-essential -y
+apt-get install python3-pip -y
+apt autoremove -y
+
 clear
 LOGO
 echo -e "${RED}JANGAN INSTALL SCRIPT INI MENGGUNAKAN KONEKSI VPN!!!${FONT}"

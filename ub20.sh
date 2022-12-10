@@ -101,10 +101,10 @@ ${RED}Make sure the internet is smooth when installing the script${FONT}
 
 }
 function install_xray() {
-    judge "Core Xray 1.6.5 Version installed successfully"
+    judge "Core Xray 1.6.2 Version installed successfully"
     curl -s ipinfo.io/city >>/etc/xray/city
     curl -s ipinfo.io/org | cut -d " " -f 2-10 >>/etc/xray/isp
-    bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.6.5 >/dev/null 2>&1
+    bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.6.2 >/dev/null 2>&1
     curl https://rclone.org/install.sh | bash >/dev/null 2>&1
     printf "q\n" | rclone config >/dev/null 2>&1
     wget -O /root/.config/rclone/rclone.conf "${GITHUB_CMD}main/RCLONE%2BBACKUP-Gdrive/rclone.conf" >/dev/null 2>&1

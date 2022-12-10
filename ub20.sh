@@ -483,92 +483,18 @@ function add_domain() {
 }
 # // Prevent the default bin directory of some system xray from missing 
 clear
-fun_bar() {
-    comando[0]="$1"
-    comando[1]="$2"
-    (
-        [[ -e $HOME/fim ]] && rm $HOME/fim
-        ${comando[0]} -y >/dev/null 2>&1
-        ${comando[1]} -y >/dev/null 2>&1
-        touch $HOME/fim
-    ) >/dev/null 2>&1 &
-    tput civis
-    echo -ne "  \033[1;33mWAIT \033[1;37m- \033[1;33m["
-    while true; do
-        for ((i = 0; i < 34; i++)); do
-            echo -ne "\033[1;31m#"
-            sleep 0.1s
-        done
-        [[ -e $HOME/fim ]] && rm $HOME/fim && break
-        echo -e "\033[1;33m]"
-        sleep 1s
-        tput cuu1
-        tput dl1
-        echo -ne "  \033[1;33mWAIT \033[1;37m- \033[1;33m["
-    done
-    echo -e "\033[1;33m]\033[1;37m -\033[1;32m OK !\033[1;37m"
-    tput cnorm
-}
-clear
-
-echo -e "\033[1;93m════════════════════════════════════════════════════\033[0m"
-tput setaf 7
-tput setab 4
-tput bold
-echo -e "\e[42m               Update Repositories                  "
-tput sgr0
-echo -e "\033[1;93m════════════════════════════════════════════════════\033[0m"
-echo -e ""
-echo -e "        This script will do the installation"
-echo -e "          manager for VPN connection mode."
-echo -e ""
-echo -e "         \033[1;33mInstaller Autoscript Ubuntu/Debian \033[1;37m"
-echo -e "\033[1;93m════════════════════════════════════════════════════\033[0m"
-echo ""
-echo -e "DOWLOADING DEPENDENCIES..."
-echo ""
-fun_att() {
+apete() {
     apt-get update -y
     echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
     echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
     apt-get install -y wget curl ruby zip unzip iptables iptables-persistent netfilter-persistent net-tools openssl ca-certificates gnupg gnupg2 ca-certificates lsb-release gcc make cmake git screen socat xz-utils apt-transport-https gnupg1 dnsutils cron bash-completion ntpdate chrony
-}
-fun_bar 'fun_att'
-echo -e "CONFIGURING FIREWALL..."
-echo ""
-fun_ports() {
-    apt install firewalld -y && sudo firewall-cmd --zone=public --permanent --add-port=80/tcp && sudo firewall-cmd --zone=public --permanent --add-port=8880/tcp && sudo firewall-cmd --zone=public --permanent --add-port=443/tcp && sudo firewall-cmd && sudo firewall-cmd --zone=public --permanent --add-port=53/udp && sudo firewall-cmd --zone=public --permanent --add-port=5300/udp && sudo firewall-cmd && sudo firewall-cmd --zone=public --permanent --add-port=2222/tcp && sudo firewall-cmd --reload
-}
-fun_bar 'fun_ports'
-echo -e "CONFIGURING LINUX STABLE..."
-echo ""
-fun_fttun() {
-    sudo systemctl disable systemd-resolved.service && sudo systemctl stop systemd-resolved.service && sudo mv /etc/resolv.conf /etc/resolv.conf.bkp && echo "nameserver 1.1.1.1" >/etc/resolv.conf
-    sudo systemctl enable systemd-resolved.service && sudo systemctl start systemd-resolved.service
     sudo apt install -y libnss3-dev libnspr4-dev pkg-config libpam0g-dev libcap-ng-dev libcap-ng-utils libselinux1-dev libcurl4-nss-dev flex bison make libnss3-tools libevent-dev xl2tpd pptpd
-}
-fun_bar 'fun_fttun'
-echo -e "UPGRADE CONFIGURING..."
-echo ""
-fun_ftunnel() {
     apt-get install -y --no-install-recommends software-properties-common
     apt-get install libc6 util-linux build-essential -y
     apt-get install python3-pip -y
     apt autoremove -y
 }
-fun_bar 'fun_ftunnel'
-clear
-echo -e "\033[1;93m════════════════════════════════════════════════════\033[0m"
-tput setaf 7
-tput setab 4
-tput bold
-echo -e "\e[42m           BHOIKFOST YAHYA AUTOSCRIPT               "
-tput sgr0
-echo -e "\033[1;93m════════════════════════════════════════════════════\033[0m"
-echo ""
-echo -e "          \033[1;33mINSTALLATION COMPLETED!\033[0m          "
-echo ""
-sleep 5
+apete
 clear
 
 LOGO

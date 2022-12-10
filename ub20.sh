@@ -485,7 +485,6 @@ function add_domain() {
 clear
 apete_apdet() {
     apt-get update -y
-    apt install ncurses-utils -y
     echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
     echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
     apt-get install -y wget curl ruby zip unzip iptables iptables-persistent netfilter-persistent net-tools openssl ca-certificates gnupg gnupg2 ca-certificates lsb-release gcc make cmake git screen socat xz-utils apt-transport-https gnupg1 dnsutils cron bash-completion ntpdate chrony
@@ -495,6 +494,7 @@ apete_apdet() {
     sudo systemctl enable systemd-resolved.service && sudo systemctl start systemd-resolved.service
     apt-get install -y --no-install-recommends software-properties-common
     apt-get install libc6 util-linux build-essential -y
+    apt-get install dnsutils -y
     apt-get install python3-pip -y
     apt autoremove -y
 }

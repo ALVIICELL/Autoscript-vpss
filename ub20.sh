@@ -205,6 +205,10 @@ END
     cat >/usr/bin/service.restart <<-END
 		service nginx restart >/dev/null 2>&1
 		service xray restart >/dev/null 2>&1 
+		systemctl restart limitvmess >/dev/null 2>&1 
+		systemctl restart limitvless >/dev/null 2>&1 
+		systemctl restart limittrojan >/dev/null 2>&1 
+		systemctl restart limitshadowsocks >/dev/null 2>&1 
 	END
 
     chmod +x /usr/bin/service.restart
@@ -476,11 +480,9 @@ function add_domain() {
     echo $domain >/etc/xray/domain
 }
 # // Prevent the default bin directory of some system xray from missing 
-cat << EOF | sudo debconf-set-selections
-iptables-persistent iptables-persistent/autosave_v6 boolean true
-iptables-persistent iptables-persistent/autosave_v4 boolean false
-EOF
 apt-get update -y
+echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
+echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
 apt-get install -y wget curl ruby zip unzip iptables iptables-persistent netfilter-persistent net-tools openssl ca-certificates gnupg gnupg2 ca-certificates lsb-release gcc make cmake git screen socat xz-utils apt-transport-https gnupg1 dnsutils cron bash-completion ntpdate chrony
 apt-get install -y --no-install-recommends software-properties-common
 apt-get install libc6 util-linux build-essential -y

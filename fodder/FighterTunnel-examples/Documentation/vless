@@ -31,7 +31,7 @@ while true; do
 sleep 30
 for user in ${data[@]}
   do
-    if [ -e etc/limit/vless/${user} ]; then
+    if [ -e /etc/limit/vless/${user} ]; then
       checkLimit=$(cat etc/limit/vless/${user});
       if [[ ${#checkLimit} -gt 1 ]]; then
       if [ -e /etc/limit/vless/${user} ]; then

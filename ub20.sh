@@ -201,22 +201,6 @@ END
 		0 5 * * * root /sbin/reboot
 	END
 
-    cat >/usr/bin/service.restart <<-END
-		service nginx restart >/dev/null 2>&1
-		service xray restart >/dev/null 2>&1 
-		systemctl restart limitvmess >/dev/null 2>&1 
-		systemctl restart limitvless >/dev/null 2>&1 
-		systemctl restart limittrojan >/dev/null 2>&1 
-		systemctl restart limitshadowsocks >/dev/null 2>&1 
-	END
-
-    chmod +x /usr/bin/service.restart
-    cat >/etc/cron.d/service <<-END
-		SHELL=/bin/sh
-		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		*/59 * * * * root /usr/bin/service.restart
-	END
-
     echo "*/1 * * * * root echo -n > /var/log/nginx/access.log" >/etc/cron.d/log.nginx
     echo "*/1 * * * * root echo -n > /var/log/xray/access.log" >>/etc/cron.d/log.xray
     service cron restart

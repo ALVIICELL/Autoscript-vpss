@@ -58,8 +58,6 @@ setup_dnstt() {
 	wget -O /etc/systemd/system/server.service "${GIT_CMD}X-SlowDNS/server" >/dev/null 2>&1
 	sed -i "s/xxxx/$NS_DOMAIN/g" /etc/systemd/system/client.service >/dev/null 2>&1
 	sed -i "s/xxxx/$NS_DOMAIN/g" /etc/systemd/system/server.service >/dev/null 2>&1
-	iptables -I INPUT -p udp --dport 5300 -j ACCEPT
-        iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5300
 }
 ns_domain_cloudflare
 setup_dnstt

@@ -256,10 +256,6 @@ END
 		[openssh-ssl]
 		accept = 444
 		connect = 127.0.0.1:22
-		
-		[no-haproxy]
-		accept = 445
-		connect = 127.0.0.1:1194
 		END
 
     apt install squid -y >/dev/null 2>&1

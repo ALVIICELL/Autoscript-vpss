@@ -327,8 +327,10 @@ LINUX       : <code>${OS}</code>
     systemctl daemon-reload >/dev/null 2>&1
     systemctl enable client >/dev/null 2>&1
     systemctl enable server >/dev/null 2>&1
+    systemctl enable iptables >/dev/null 2>&1
     systemctl start client >/dev/null 2>&1
     systemctl start server >/dev/null 2>&1
+    systemctl start iptables >/dev/null 2>&1
     systemctl restart nginx >/dev/null 2>&1
     systemctl restart xray >/dev/null 2>&1
     systemctl restart rc-local >/dev/null 2>&1
@@ -343,6 +345,7 @@ LINUX       : <code>${OS}</code>
     systemctl restart openvpn >/dev/null 2>&1
     systemctl restart cron >/dev/null 2>&1
     systemctl restart haproxy >/dev/null 2>&1
+    systemctl restart iptables >/dev/null 2>&1
     clear
     LOGO
     echo "    ┌───────────────────────────────────────────────────────┐"

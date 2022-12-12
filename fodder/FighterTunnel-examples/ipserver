@@ -1,6 +1,7 @@
 #!/bin/bash
 # ALL TRAFIC IPTABLES
 CMD=$(ip -o $CMD -4 route show to default | awk '{print $5}');
+iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5300
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 88 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 99 -j ACCEPT
@@ -45,8 +46,6 @@ iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10006 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10007 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10008 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m udp -p udp --dport 10011 -j ACCEPT
-iptables -I INPUT -p udp --dport 5300 -j ACCEPT
-iptables -t nat -I PREROUTING -i eth0 -p udp --dport 53 -j REDIRECT --to-ports 5300
 iptables -A FORWARD -m string --algo bm --string "BitTorrent" -j DROP
 iptables -A FORWARD -m string --algo bm --string "BitTorrent protocol" -j DROP
 iptables -A FORWARD -m string --algo bm --string "peer_id=" -j DROP
@@ -68,19 +67,12 @@ iptables -A FORWARD -m string --algo kmp --string "info_hash" -j DROP
 iptables -A FORWARD -m string --algo kmp --string "get_peers" -j DROP
 iptables -A FORWARD -m string --algo kmp --string "announce" -j DROP
 iptables -A FORWARD -m string --algo kmp --string "announce_peers" -j DROP
+iptables -t nat -I POSTROUTING -s 10.6.0.0/24 -o $CMD -j MASQUERADE
+iptables -t nat -I POSTROUTING -s 10.7.0.0/24 -o $CMD -j MASQUERADE
+iptables -I INPUT -p udp --dport 5300 -j ACCEPT
 iptables-save >/etc/iptables/rules.v4 >/dev/null 2>&1
 iptables-save >/etc/iptables.up.rules >/dev/null 2>&1
 netfilter-persistent save >/dev/null 2>&1
 netfilter-persistent reload >/dev/null 2>&1
-# OVPN IPTABLES
-iptables -t nat -I POSTROUTING -s 10.6.0.0/24 -o $CMD -j MASQUERADE
-iptables -t nat -I POSTROUTING -s 10.7.0.0/24 -o $CMD -j MASQUERADE
-iptables-save > /etc/iptables.up.rules >/dev/null 2>&1
-chmod +x /etc/iptables.up.rules >/dev/null 2>&1
-iptables-restore -t < /etc/iptables.up.rules >/dev/null 2>&1
-netfilter-persistent save >/dev/null 2>&1
-netfilter-persistent reload >/dev/null 2>&1
 systemctl enable iptables >/dev/null 2>&1 
 systemctl restart iptables >/dev/null 2>&1 
-
-

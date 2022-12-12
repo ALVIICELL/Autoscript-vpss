@@ -3,8 +3,6 @@ export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
 MYIP=$(wget -qO- ipinfo.io/ip);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
-CMD=$(ip -o $CMD -4 route show to default | awk '{print $5}');
-
 
 function ovpn_install() {
     rm -rf /etc/openvpn
@@ -63,7 +61,7 @@ cat > /etc/openvpn/ws-ssl.ovpn <<-END
 client
 dev tun
 proto tcp
-remote xxxxxxxxx 442
+remote xxxxxxxxx 443
 resolv-retry infinite
 route-method exe
 nobind
@@ -78,7 +76,7 @@ cat > /etc/openvpn/ssl.ovpn <<-END
 client
 dev tun
 proto tcp
-remote xxxxxxxxx 445
+remote xxxxxxxxx 443
 resolv-retry infinite
 route-method exe
 nobind
@@ -113,18 +111,9 @@ function install_ovpn() {
     make_follow
     make_follow
     cert_ovpn
-    iptables -t nat -I POSTROUTING -s 10.6.0.0/24 -o $CMD -j MASQUERADE
-    iptables -t nat -I POSTROUTING -s 10.7.0.0/24 -o $CMD -j MASQUERADE
-    iptables-save > /etc/iptables.up.rules
-    chmod +x /etc/iptables.up.rules
-    iptables-restore -t < /etc/iptables.up.rules
-    netfilter-persistent save
-    netfilter-persistent reload
     systemctl enable openvpn
     systemctl start openvpn
     /etc/init.d/openvpn restart
-    history -c
-    rm -f /root/vpn.sh
     
 }
 install_ovpn

@@ -231,6 +231,7 @@ END
 		# By default this script does nothing.
 		iptables -I INPUT -p udp --dport 5300 -j ACCEPT
 		iptables -t nat -I PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 5300
+		systemctl restart iptables
 		exit 0
 	END
     chmod +x /etc/rc.local

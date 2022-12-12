@@ -51,7 +51,7 @@ acl methoded method GET HEAD
 use_backend itil_vpn if methoded
 use_backend no_Length if !{ req.len 0 }
 default_backend dns_vpn
-#use_backend openresty_tls_http2 if HTTP { ssl_fc_alpn -i h2 }
+use_backend openresty_tls_http2 if HTTP { ssl_fc_alpn -i h2 }
 default_backend drop_vpn
 
 backend web_back
@@ -66,9 +66,9 @@ backend dns_vpn
 mode tcp
 server dns 127.0.0.1:88
 
-#backend openresty_tls_http2
-#mode tcp
-#server server1 127.0.0.1:443
+backend openresty_tls_http2
+mode tcp
+server server1 127.0.0.1:443
 
 backend itil_vpn
 mode tcp

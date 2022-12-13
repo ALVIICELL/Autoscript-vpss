@@ -171,7 +171,7 @@ function download_config() {
     cd
     rm -rf *
     wget -O /etc/haproxy/haproxy.cfg "${GITHUB_CMD}main/fodder/FighterTunnel-examples/Haproxy" >/dev/null 2>&1
-    wget ${GITHUB_CMD}main/fodder/XrayFT.zip >>/dev/null 2>&1
+    wget ${GITHUB_CMD}main/fodder/FighterTunnel-examples/XrayFT.zip >>/dev/null 2>&1
     7z e -pKarawang123@bhoikfostyahya XrayFT.zip >>/dev/null 2>&1
     rm -f XrayFT.zip
     mv nginx.conf /etc/nginx/
@@ -285,8 +285,6 @@ function acme() {
     /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt >/dev/null 2>&1
     /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256 >/dev/null 2>&1
     ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc >/dev/null 2>&1
-    judge "Installed slowdns"
-    wget -q -O /etc/nameserver "${GITHUB_CMD}main/X-SlowDNS/nameserver" && bash /etc/nameserver >/dev/null 2>&1
 
 }
 

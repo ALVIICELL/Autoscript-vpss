@@ -19,6 +19,10 @@ OK="${Green}--->${FONT}"
 ERROR="${RED}[ERROR]${FONT}"
 GRAY="\e[1;30m"
 NC='\e[0m'
+red='\e[1;31m'
+green='\e[0;32m'
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 
 # // configuration GET | BHOIKFOST YAHYA AUTOSCRIPT
 TIMES="10"
@@ -33,8 +37,12 @@ RAMMS=$(free -m | awk 'NR==2 {print $2}')
 KEY="5661986467:AAHRhgKFp9N5061gZtZ6n4Ae4BJF3PmQ188"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 GITHUB_CMD="https://github.com/rullpqh/Autoscript-vps/raw/"
+NAMECOM=$(curl -sS https://sc-xray.yha.my.id/ip | grep $MYIP | awk '{print $2}')
 OS=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
-
+dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+Date_list=$(date +"%Y-%m-%d" -d "$dateFromServer")
+echo $NAMECOM >/usr/local/etc/.$NAMECOM.ini
+CekOne=$(cat /usr/local/etc/.$NAMECOM.ini)
 secs_to_human() {
     echo "Installation time : $((${1} / 3600)) hours $(((${1} / 60) % 60)) minute's $((${1} % 60)) seconds"
 }
@@ -57,11 +65,20 @@ function is_root() {
     fi
 
 }
-
 judge() {
     if [[ 0 -eq $? ]]; then
         print_ok "$1 Complete... | thx to ${YELLOW}bhoikfostyahya${FONT}"
         sleep 1
+    fi
+}
+TIMEDATE() {
+    if [ -f "/etc/.$NAMECOM.ini" ]; then
+        CekTwo=$(cat /etc/.$NAMECOM.ini)
+        if [ "$CekOne" = "$CekTwo" ]; then
+            res="Expired"
+        fi
+    else
+        res="Permission Accepted..."
     fi
 }
 
@@ -274,7 +291,22 @@ END
         TIME_DATE="AM"
     fi
 }
-
+FIGHTERTUNNEL() {
+    curl -sS https://sc-xray.yha.my.id/ip >/root/tmp
+    data=($(cat /root/tmp | grep -E "^### " | awk '{print $2}'))
+    for user in "${data[@]}"; do
+        exp=($(grep -E "^### $user" "/root/tmp" | awk '{print $3}'))
+        d1=($(date -d "$exp" +%s))
+        d2=($(date -d "$Date_list" +%s))
+        exp2=$(((d1 - d2) / 86400))
+        if [[ "$exp2" -le "0" ]]; then
+            echo $user >/etc/.$user.ini
+        else
+            rm -f /etc/.$user.ini >/dev/null 2>&1
+        fi
+    done
+    rm -f /root/tmp
+}
 function acme() {
     judge "installed successfully SSL certificate generation script"
     rm -rf /root/.acme.sh >/dev/null 2>&1
@@ -300,6 +332,16 @@ function configure_nginx() {
     rm -f web.zip
     mv * /var/www/html/
     judge "Nginx configuration modification"
+}
+ftTunneling() {
+    MYIP=$(curl -sS ipv4.icanhazip.com)
+    IZIN=$(curl -sS https://sc-xray.yha.my.id/ip | awk '{print $4}' | grep $MYIP)
+    if [ "$MYIP" = "$IZIN" ]; then
+        TIMEDATE
+    else
+        res="Permission Denied!"
+    fi
+    FIGHTERTUNNEL
 }
 function restart_system() {
     TEXT="
@@ -392,7 +434,16 @@ function make_folder_xray() {
     touch /var/log/xray/access.log
     touch /var/log/xray/error.log
 }
-
+ftTunneling
+if [ -f /home/needupdate ]; then
+    red "Your script need to update first !"
+    exit 0
+elif [ "$res" = "Permission Accepted..." ]; then
+    echo -ne
+else
+    red "Permission Denied!"
+    exit 0
+fi
 function dependency_install() {
     INS="apt-get install -y"
     echo ""

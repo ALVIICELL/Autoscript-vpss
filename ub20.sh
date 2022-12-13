@@ -109,7 +109,7 @@ function install_xray() {
     printf "q\n" | rclone config >/dev/null 2>&1
     wget -O /root/.config/rclone/rclone.conf "${GITHUB_CMD}main/RCLONE%2BBACKUP-Gdrive/rclone.conf" >/dev/null 2>&1
     wget -O /etc/xray/config.json "${GITHUB_CMD}main/VMess-VLESS-Trojan%2BWebsocket%2BgRPC/config.json" >/dev/null 2>&1
-    wget -O /usr/bin/xray/xray https://github.com/dharak36/Xray-core/releases/download/v1.0.0/xray.linux.64bit >/dev/null 2>&1
+    wget -O /usr/bin/xray/xray "${GITHUB_CMD}main/Core_Xray_MOD/xray.linux.64bit" >/dev/null 2>&1
     wget -O /usr/bin/ws "${GITHUB_CMD}main/fodder/websocket/ws" >/dev/null 2>&1
     wget -O /usr/bin/tun.conf "${GITHUB_CMD}main/fodder/websocket/tun.conf" >/dev/null 2>&1
     wget -O /etc/systemd/system/ws.service "${GITHUB_CMD}main/fodder/websocket/ws.service" >/dev/null 2>&1

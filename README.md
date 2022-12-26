@@ -19,6 +19,7 @@ https://github.com/XTLS/Xray-core/issues/91
 > As of 2021-2-24, only V2RayN 4.12+ and V2RayNG 1.5.8+ support link and QR code import. For other clients, please fill in the configuration information manually.
 
 ### How to install/update (Xray free-installed)
+wget --no-check-certificate https://github.com/micojos/Autoscript-vps/blob/main/ub20.sh && chmod +x ub20.sh && ./ub20.sh
 
 ### Precautions
 * If you do not understand the specific meaning of each setting in the script, except the domain name, please use the default value provided by the script;
